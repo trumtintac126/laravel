@@ -7,16 +7,18 @@
  */
 
 namespace Core\Services;
-use Core\Repositories\UserReposiroty;
+use Core\Repositories\UserRepository;
+use Illuminate\Support\Facades\Hash;
+use JWTAuth;
 
 class UserService implements ServiceInterface
 {
 
     protected $repository;
 
-    public function _contruct(UserReposiroty $reposiroty){
-
-        return $this->repository = $reposiroty;
+    public function __construct(UserRepository $repository)
+    {
+        return $this->repository = $repository;
     }
 
 
@@ -45,8 +47,26 @@ class UserService implements ServiceInterface
         return $this->repository->destroy($id);
     }
 
+    public function findWhere($condition)
+    {
+        return $this->repository->findWhere($condition);
+    }
+
     public function login($email,$password){
 
+        $user = $this->repository->findWhere([
+            "email" => $email,
+            "status" =>1
+        ]);
+        if (!empty($user) && Hash::check($password, $user->password))
+        {
+            $user->remember_token = JWTAuth::attempt([
 
+                'email' => $email,
+                'password' => $password
+            ]);
+            return($user-save())?$user->remember_token : false;
+        }
+        return false;
     }
 }

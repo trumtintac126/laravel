@@ -14,7 +14,8 @@ class UserReposiroty implements RepositoryInterface
 {
     protected $model;
 
-    public function _contruct(User $model){
+    public function __construct(User $model)
+    {
         $this->model = $model;
     }
 
@@ -43,6 +44,12 @@ class UserReposiroty implements RepositoryInterface
     {
        $model = $this->model->find($id);
        return $model->destroy($id);
+    }
+
+    public function findWhere($condition)
+    {
+        $model = $this->model->where($condition);
+        return $model->first();
     }
 
     public  function edit_profile_avatar($id,$data)

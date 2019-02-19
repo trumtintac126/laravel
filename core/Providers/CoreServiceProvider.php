@@ -9,8 +9,10 @@
 namespace Core\Providers;
 
 
+use Core\Services\ServiceInterface;
+use Core\Services\UserService;
 use Illuminate\Support\ServiceProvider;
-use Core\Repositories\UserReposiroty;
+use Core\Repositories\UserRepository;
 
 class CoreServiceProvider extends ServiceProvider
 {
@@ -25,9 +27,14 @@ class CoreServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app>bind(
+        $this->app->bind(
             RepositoryInterface::class,
             UserRepository::class
+        );
+        $this->app->bind(
+            ServiceInterface::class,
+            UserService::class
+
         );
     }
 }
