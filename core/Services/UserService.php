@@ -55,8 +55,8 @@ class UserService implements ServiceInterface
     public function login($email,$password){
 
         $user = $this->repository->findWhere([
-            "email" => $email,
-            "status" =>1
+            "email"  => $email,
+            "status" => 1
         ]);
         if (!empty($user) && Hash::check($password, $user->password))
         {
@@ -65,7 +65,7 @@ class UserService implements ServiceInterface
                 'email' => $email,
                 'password' => $password
             ]);
-            return($user-save())?$user->remember_token : false;
+            return($user->save()) ? $user->remember_token : false;
         }
         return false;
     }

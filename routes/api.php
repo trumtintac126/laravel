@@ -26,3 +26,9 @@ Route::group(['prefix' => '/posts', 'as' => 'posts.'], function () {
 
 //restful api user
 Route::resource('users','Api\UserController');
+
+
+// route post login
+Route::post('/login', 'Api\UserController@login');
+// route post login
+Route::post('/logout', 'Api\UserController@logout');

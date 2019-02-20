@@ -10,7 +10,7 @@ namespace Core\Repositories;
 use App\User;
 
 
-class UserReposiroty implements RepositoryInterface
+class UserRepository implements RepositoryInterface
 {
     protected $model;
 
