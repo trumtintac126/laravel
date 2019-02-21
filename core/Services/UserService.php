@@ -62,8 +62,8 @@ class UserService implements ServiceInterface
         {
             $user->remember_token = JWTAuth::attempt([
                 'email'         => $email,
-//                'first_name'    => $user->first_name,
-//                'last_name'     => $user->last_name
+                'first_name'    => $user->first_name,
+                'last_name'     => $user->last_name,
                 'password' => $password
             ]);
             return($user->save()) ? $user->remember_token : false;
