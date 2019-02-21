@@ -16,6 +16,7 @@ use Core\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Validator;
+use JWTAuth;
 
 class UserController extends Controller
 {
@@ -59,7 +60,7 @@ class UserController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(RegisterRequest $request)
+    public function store(Request $request)
     {
         try
         {
@@ -164,7 +165,7 @@ class UserController extends Controller
     {
         try
         {
-            $authorization = $request->header('authorization');
+            $authorization = $request->header('Authorization');
 
             JWTAuth::setToken($authorization);
 

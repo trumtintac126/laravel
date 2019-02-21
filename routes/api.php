@@ -31,4 +31,4 @@ Route::resource('users','Api\UserController');
 // route post login
 Route::post('/login', 'Api\UserController@login');
 // route post login
-Route::post('/logout', 'Api\UserController@logout');
+Route::get('/logout', 'Api\UserController@logout');
