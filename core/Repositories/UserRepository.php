@@ -26,7 +26,7 @@ class UserRepository implements RepositoryInterface
 
     public function find($id)
     {
-        return $this->model->findOrFall($id);
+        return  $this->model->where([ "id" => $id])->first();
     }
 
     public function store($data)

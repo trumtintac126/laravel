@@ -49,18 +49,24 @@ class UserController extends Controller
             $message = "Access Denied Exception";
             $data = null;
         }
-        return response()->json([
-           "result_code"    =>$code,
-           "result_message" =>$message,
-           "data"           =>$data
-        ], $code);
+        return response()
+            ->json([
+                "result_code"       => $code,
+                "result_message"    => $message,
+                "data"              => $data
+            ], $code)
+            ->withHeaders([
+                'Access-Control-Allow-Credentials' => 'true',
+                'Access-Control-Allow-Origin' => '*',
+                'Access-Control-Allow-Headers' => 'Origin'
+            ]);
     }
 
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(RegisterRequest $request)
     {
         try
         {
@@ -86,7 +92,6 @@ class UserController extends Controller
 //                    }
 
                     //insert data to table
-
                     $data_user = $request->all();
 
                     $data_user = [
@@ -119,11 +124,17 @@ class UserController extends Controller
             $data = null;
         }
 
-        return response()->json([
-            "result_code"       => $code,
-            "result_message"    => $message,
-            "data"              => $data
-        ],$code);
+        return response()
+            ->json([
+                "result_code"       => $code,
+                "result_message"    => $message,
+                "data"              => $data
+            ], $code)
+            ->withHeaders([
+                'Access-Control-Allow-Credentials' => 'true',
+                'Access-Control-Allow-Origin' => '*',
+                'Access-Control-Allow-Headers' => 'Origin'
+            ]);
     }
 
     /**
@@ -150,11 +161,17 @@ class UserController extends Controller
             $data = $e->getMessage();
         }
 
-        return response()->json([
-            "result_code"       => $code,
-            "result_message"    => $message,
-            "data"              => $data
-        ], $code);
+        return response()
+            ->json([
+                "result_code"       => $code,
+                "result_message"    => $message,
+                "data"              => $data
+            ], $code)
+            ->withHeaders([
+                'Access-Control-Allow-Credentials' => 'true',
+                'Access-Control-Allow-Origin' => '*',
+                'Access-Control-Allow-Headers' => 'Origin'
+            ]);
     }
 
     /**
@@ -180,11 +197,17 @@ class UserController extends Controller
             $message = "Something error!!!!!";
             $data = null;
         }
-        return response()->json([
-            "result_code"       => $code,
-            "result_message"    => $message,
-            "data"              => $data
-        ], $code);
+        return response()
+            ->json([
+                "result_code"       => $code,
+                "result_message"    => $message,
+                "data"              => $data
+            ], $code)
+            ->withHeaders([
+                'Access-Control-Allow-Credentials' => 'true',
+                'Access-Control-Allow-Origin' => '*',
+                'Access-Control-Allow-Headers' => 'Origin'
+            ]);
     }
 
     /**
@@ -211,10 +234,51 @@ class UserController extends Controller
             $message = "Something error!!!!!";
             $data = null;
         }
-        return response()->json([
+        return response()
+            ->json([
+                "result_code"       => $code,
+                "result_message"    => $message,
+                "data"              => $data
+            ], $code)
+            ->withHeaders([
+                'Access-Control-Allow-Credentials' => 'true',
+                'Access-Control-Allow-Origin' => '*',
+                'Access-Control-Allow-Headers' => 'Origin'
+            ]);
+    }
+
+    public function profile(Request $request)
+    {
+        try
+        {
+            $authorization = $request->header('Authorization');
+
+            JWTAuth::setToken($authorization);
+
+            $profile = JWTAuth::authenticate();
+
+            $profile = $this->user_service->find($profile->id);
+
+            $code = 200;
+            $message = "Success!";
+            $data = $profile;
+        } catch(\Exception $e) {
+            $code = 403;
+            $message = "Access Denied Exception";
+            $data = $e->getMessage();
+        }
+
+
+        return response()
+            ->json([
             "result_code"       => $code,
             "result_message"    => $message,
             "data"              => $data
-        ], $code);
+            ], $code)
+            ->withHeaders([
+                'Access-Control-Allow-Credentials' => 'true',
+                'Access-Control-Allow-Origin' => '*',
+                'Access-Control-Allow-Headers' => 'Origin'
+            ]);
     }
 }

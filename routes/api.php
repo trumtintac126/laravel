@@ -24,11 +24,16 @@ Route::group(['prefix' => '/posts', 'as' => 'posts.'], function () {
     Route::delete('/{id}', 'PostController@destroy')->name('destroy');
 });
 
+
+//login
 //restful api user
 Route::resource('users','Api\UserController');
+// route get logout
+Route::get('/logout', 'Api\UserController@logout');
+// route get profile
+Route::get('/profile', 'Api\UserController@profile');
 
 
+//no login
 // route post login
 Route::post('/login', 'Api\UserController@login');
-// route post login
-Route::get('/logout', 'Api\UserController@logout');
