@@ -71,6 +71,7 @@ class UserController extends Controller
         try
         {
             DB::transaction(function () use ($request){
+
                 //validate email if exists
                 $email = $this->user_service->findWhere(["email" => $request->email]);
                 if($email){
@@ -92,8 +93,8 @@ class UserController extends Controller
 //                    }
 
                     //insert data to table
-                    $data_user = $request->all();
 
+                    //$data_user = $request->all();
                     $data_user = [
                         "email"             => $request->email,
                         "password"          => bcrypt($request->password),
@@ -104,7 +105,9 @@ class UserController extends Controller
                         "remember_token"    => null
                     ];
 
+
                     $user = $this->user_service->store($data_user);
+
                 }
             });
 
@@ -148,10 +151,10 @@ class UserController extends Controller
             $login = $this->user_service->login($request->email, $request->password);
             if ($login) {
                 $code = 200;
-                $message = "Login success";
+                $message = "login_success";
                 $data = $login;
             } else {
-                $code = 422;
+                $code = 200;
                 $message = "Invalid username/password supplied";
                 $data = null;
             }
@@ -170,7 +173,7 @@ class UserController extends Controller
             ->withHeaders([
                 'Access-Control-Allow-Credentials' => 'true',
                 'Access-Control-Allow-Origin' => '*',
-                'Access-Control-Allow-Headers' => 'Origin'
+                'Access-Control-Allow-Headers' => '*'
             ]);
     }
 
